@@ -1,7 +1,7 @@
 import java.io.*;
 import java.util.*;
 
-public class A {
+public class Main {
 	public static void main(String[] args) {
 		try{
 			InputStreamReader isr =new InputStreamReader(System.in);

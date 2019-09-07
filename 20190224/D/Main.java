@@ -1,7 +1,7 @@
 import java.io.*;
 import java.util.*;
 
-public class D {
+public class Main {
 	static long[] listS, listT;
 
 	public static void main(String[] args) {

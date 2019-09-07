@@ -6,8 +6,7 @@ public class Main {
 		InputStreamReader isr;
 		BufferedReader br;
 		try {
-			isr = new InputStreamReader(System.in);
-	   		br = new BufferedReader(isr);
+	   		br = createBufferedReader();
 	        String nstr = br.readLine();
 	    	final int n = Integer.parseInt(nstr);
 	        if (n < 2 || n > 10) {
@@ -36,5 +35,12 @@ public class Main {
 	private static double getJPY(final double amount) {
 		final double rate = 380000.0;
 		return rate * amount;
+	}
+
+	// 以下問題問わずに共通部分
+	// 標準入力の BufferedReader を返す.
+	private static BufferedReader createBufferedReader() {
+		InputStreamReader isr =new InputStreamReader(System.in);
+	   	return new BufferedReader(isr);
 	}
 }

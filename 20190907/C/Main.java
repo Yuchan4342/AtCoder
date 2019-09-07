@@ -6,8 +6,7 @@ public class Main {
 
 	public static void main(String[] args) {
 		try{
-			InputStreamReader isr =new InputStreamReader(System.in);
-	   		BufferedReader br =new BufferedReader(isr);
+	   		BufferedReader br = createBufferedReader();
 	        String buf = br.readLine();
 	        StringTokenizer st = new StringTokenizer(buf," ");
 	    	final int n = Integer.parseInt(st.nextToken());
@@ -57,5 +56,12 @@ public class Main {
 			}
 		}
 		return (ai != -1 && bi != -1 && ci != -1);
+	}
+
+	// 以下問題問わずに共通部分
+	// 標準入力の BufferedReader を返す.
+	private static BufferedReader createBufferedReader() {
+		InputStreamReader isr =new InputStreamReader(System.in);
+	   	return new BufferedReader(isr);
 	}
 }

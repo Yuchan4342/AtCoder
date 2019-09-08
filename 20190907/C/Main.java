@@ -5,37 +5,26 @@ public class Main {
 	static int a, b, c;
 
 	public static void main(String[] args) {
-		try{
-	   		BufferedReader br = createBufferedReader();
-	        String buf = br.readLine();
-	        StringTokenizer st = new StringTokenizer(buf," ");
-	    	final int n = Integer.parseInt(st.nextToken());
-	    	a = Integer.parseInt(st.nextToken());
-	    	b = Integer.parseInt(st.nextToken());
-	    	c = Integer.parseInt(st.nextToken());
-	        if (n < 3 || n > 8) {
-	        	throw new IllegalArgumentException();
-	        }
-	        if (a < 1 || a > 1000) {
-	        	throw new IllegalArgumentException();
-	        }
-	        if (b < 1 || b > 1000 || b >= a) {
-	        	throw new IllegalArgumentException();
-	        }
-	        if (c < 1 || c > 1000 || c >= b) {
-	        	throw new IllegalArgumentException();
-	        }
-	        int[] lengths = new int[n];
-	        for (int i = 0; i < n; i++) {
-	        	String str = br.readLine();
-	        	lengths[i] = Integer.parseInt(str);
-	        	if (lengths[i] < 1 || lengths[i] > 1000) {
-	        		throw new IllegalArgumentException();
-	        	}
-	        }
-	        if (isCompleted(lengths)) {
-	        	System.out.println(0);
-	        }
+		try {
+			BufferedReader br = createBufferedReader();
+			String line = br.readLine();
+			final int N = Integer.parseInt(line);
+			int[] a = new int[N];
+			int[] b = new int[N - 1];
+			line = br.readLine();
+			StringTokenizer st = new StringTokenizer(line, " ");
+			for (int i = 0; i < N - 1; i++) {
+				b[i] = Integer.parseInt(st.nextToken());
+			}
+			a[0] = b[0];
+			int sum = a[0];
+			for (int i = 1; i < N - 1; i++) {
+				a[i] = min(b[i - 1], b[i]);
+				sum += a[i];
+			}
+			a[N - 1] = b[N - 2];
+			sum += a[N - 1];
+			System.out.println(sum);
 		} catch (IOException ioe) {
 			ioe.printStackTrace();
 		} catch (IllegalArgumentException iae) {
@@ -44,24 +33,14 @@ public class Main {
 		}
 	}
 
-	private static boolean isCompleted(final int[] lengths) {
-		int ai = -1, bi = -1, ci = -1;
-		for (int i = 0; i < lengths.length; i++) {
-			if (lengths[i] == a && ai == -1) {
-				ai = i;
-			} else if (lengths[i] == b && bi == -1) {
-				bi = i;
-			} else if (lengths[i] == c && ci == -1) {
-				ci = i;
-			}
-		}
-		return (ai != -1 && bi != -1 && ci != -1);
+	private static int min(final int a, final int b) {
+		return (a < b) ? a : b;
 	}
 
 	// 以下問題問わずに共通部分
 	// 標準入力の BufferedReader を返す.
 	private static BufferedReader createBufferedReader() {
-		InputStreamReader isr =new InputStreamReader(System.in);
-	   	return new BufferedReader(isr);
+		InputStreamReader isr = new InputStreamReader(System.in);
+		return new BufferedReader(isr);
 	}
 }

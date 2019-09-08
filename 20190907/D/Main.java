@@ -6,48 +6,31 @@ public class Main {
 
 	public static void main(String[] args) {
 		try {
-	   		BufferedReader br = createBufferedReader();
-	        String buf = br.readLine();
-	        StringTokenizer st = new StringTokenizer(buf," ");
-	    	final int a = Integer.parseInt(st.nextToken());
-	    	final int b = Integer.parseInt(st.nextToken());
-	    	final int q = Integer.parseInt(st.nextToken());
-	        if (a < 1 || a > 100000) {
-	        	throw new IllegalArgumentException();
-	        }
-	        if (b < 1 || b > 100000) {
-	        	throw new IllegalArgumentException();
-	        }
-	        if (q < 1 || q > 100000) {
-	        	throw new IllegalArgumentException();
-	        }
-	        listS = new long[a];
-	        for (int i = 0; i < a; i++) {
-	        	String str = br.readLine();
-	        	listS[i] = Long.parseLong(str);
-	        	if (listS[i] < 1 || listS[i] > 10000000000L) {
-	        		throw new IllegalArgumentException();
-	        	}
-	        }
-	        listT = new long[b];
-	        for (int i = 0; i < b; i++) {
-	        	String str = br.readLine();
-	        	listT[i] = Long.parseLong(str);
-	        	if (listT[i] < 1 || listT[i] > 10000000000L) {
-	        		throw new IllegalArgumentException();
-	        	}
-	        }
-	        long[] listX = new long[q];
-	        for (int i = 0; i < q; i++) {
-	        	String str = br.readLine();
-	        	listX[i] = Long.parseLong(str);
-	        	if (listX[i] < 1 || listX[i] > 10000000000L) {
-	        		throw new IllegalArgumentException();
-	        	}
-	        }
-	        for (int i = 0; i < listX.length; i++) {
-	        	System.out.println(getMinimumDistance(listX[i]));
-	        }
+			BufferedReader br = createBufferedReader();
+			String line = br.readLine();
+			StringTokenizer st = new StringTokenizer(line, " ");
+			final int n = Integer.parseInt(st.nextToken());
+			final int k = Integer.parseInt(st.nextToken());
+			String s = br.readLine();
+			int max = numberOfHappy(s);
+			for (int i = 0; i < k; i++) {
+				String maxS = "";
+				for (int l = 0; l < n; l++) {
+					for (int r = l; r < n; r++) {
+						String changed = changeString(s, l, r);
+						int happy = numberOfHappy(changed);
+						if (happy > max) {
+							maxS = changed;
+							max = happy;
+						}
+					}
+				}
+				if (maxS.equals("")) {
+					break;
+				}
+				s = maxS;
+			}
+			System.out.println(max);
 		} catch (IOException ioe) {
 			ioe.printStackTrace();
 		} catch (IllegalArgumentException iae) {
@@ -56,48 +39,52 @@ public class Main {
 		}
 	}
 
-	private static long getMinimumDistance(final long x) {
-		long closestShrine = getClosestShrine(x);
-		long closestTemple = getClosestTemple(x);
-		long a = Math.abs(closestShrine - x) + Math.abs(getClosestTemple(closestShrine) - closestShrine);
-		long b = Math.abs(closestTemple - x) + Math.abs(getClosestShrine(closestTemple) - closestTemple);
-		return (a <= b) ? a : b;
+	private static int numberOfHappy(final String s) {
+		int result = 0, n = s.length();
+		for (int i = 0; i < n; i++) {
+			if (i != n - 1 && s.charAt(i) == 'R' && s.charAt(i + 1) == 'R') {
+				result++;
+			} else if (i != 0 && s.charAt(i) == 'L' && s.charAt(i - 1) == 'L') {
+				result++;
+			}
+			s.charAt(i);
+		}
+		return result;
 	}
 
-	private static long getClosestShrine(final long x) {
-		long result, result2;
-		for (int i = 0; i < listS.length; i++) {
-			if (listS[i] > x) {
-				result = listS[i] - x;
-				if (i != 0) {
-					result2 = x - listS[i - 1];
-					return (result <= result2) ? listS[i] : listS[i - 1];
-				}
-				return listS[i];
-			}
+	private static String changeString(final String s, final int l, final int r) {
+		char[] changedStr = s.toCharArray();
+		int n = s.length();
+		if (l == r) {
+			changedStr[l] = changeChar(changedStr[l]);
+			return new String(changedStr);
 		}
-		return listS[listS.length - 1];
+		for (int i = 0; i <= r - l; i++) {
+			if (l + i > r - i) {
+				break;
+			}
+			char left = changedStr[l + i];
+			char right = changedStr[r - i];
+			changedStr[l + i] = changeChar(right);
+			changedStr[r - i] = changeChar(left);
+		}
+		return new String(changedStr);
 	}
 
-	private static long getClosestTemple(final long x) {
-		long result, result2;
-		for (int i = 0; i < listT.length; i++) {
-			if (listT[i] > x) {
-				result = listT[i] - x;
-				if (i != 0) {
-					result2 = x - listT[i - 1];
-					return (result <= result2) ? listT[i] : listT[i - 1];
-				}
-				return listT[i];
-			}
+	private static char changeChar(final char c) {
+		if (c == 'L') {
+			return 'R';
 		}
-		return listT[listT.length - 1];
+		if (c == 'R') {
+			return 'L';
+		}
+		return ' ';
 	}
 
 	// 以下問題問わずに共通部分
 	// 標準入力の BufferedReader を返す.
 	private static BufferedReader createBufferedReader() {
-		InputStreamReader isr =new InputStreamReader(System.in);
-	   	return new BufferedReader(isr);
+		InputStreamReader isr = new InputStreamReader(System.in);
+		return new BufferedReader(isr);
 	}
 }

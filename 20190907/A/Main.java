@@ -6,16 +6,15 @@ public class Main {
 		try {
 	   		BufferedReader br = createBufferedReader();
 	        String line = br.readLine();
-	        StringTokenizer st = new StringTokenizer(line, " ");
-	        int input = Integer.parseInt(st.nextToken());
-	       	System.out.println(method(input));
+	        final int N = Integer.parseInt(line);
+	       	System.out.println(method(N));
 		} catch (IOException ioe) {
 			ioe.printStackTrace();
 		}
 	}
 
-	private static int method(final int a) {
-		return a;
+	private static int method(final int n) {
+		return n * n * n;
 	}
 
 	// 以下問題問わずに共通部分

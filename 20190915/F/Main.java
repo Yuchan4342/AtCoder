@@ -6,53 +6,17 @@ public class Main {
 
 	public static void main(String[] args) {
 		try {
-	   		BufferedReader br = createBufferedReader();
-	        String buf = br.readLine();
-	        StringTokenizer st = new StringTokenizer(buf," ");
-	    	final int a = Integer.parseInt(st.nextToken());
-	    	final int b = Integer.parseInt(st.nextToken());
-	    	final int q = Integer.parseInt(st.nextToken());
-	        if (a < 1 || a > 100000) {
-	        	throw new IllegalArgumentException();
-	        }
-	        if (b < 1 || b > 100000) {
-	        	throw new IllegalArgumentException();
-	        }
-	        if (q < 1 || q > 100000) {
-	        	throw new IllegalArgumentException();
-	        }
-	        listS = new long[a];
-	        for (int i = 0; i < a; i++) {
-	        	String str = br.readLine();
-	        	listS[i] = Long.parseLong(str);
-	        	if (listS[i] < 1 || listS[i] > 10000000000L) {
-	        		throw new IllegalArgumentException();
-	        	}
-	        }
-	        listT = new long[b];
-	        for (int i = 0; i < b; i++) {
-	        	String str = br.readLine();
-	        	listT[i] = Long.parseLong(str);
-	        	if (listT[i] < 1 || listT[i] > 10000000000L) {
-	        		throw new IllegalArgumentException();
-	        	}
-	        }
-	        long[] listX = new long[q];
-	        for (int i = 0; i < q; i++) {
-	        	String str = br.readLine();
-	        	listX[i] = Long.parseLong(str);
-	        	if (listX[i] < 1 || listX[i] > 10000000000L) {
-	        		throw new IllegalArgumentException();
-	        	}
-	        }
-	        for (int i = 0; i < listX.length; i++) {
-	        	System.out.println(getMinimumDistance(listX[i]));
-	        }
+			BufferedReader br = createBufferedReader();
+			String line = br.readLine();
+			final int N = Integer.parseInt(line);
+			line = br.readLine();
+			StringTokenizer st = new StringTokenizer(line, " ");
+			int[] a = new int[N];
+			for (int i = 0; i < N; i++) {
+				a[i] = Integer.parseInt(st.nextToken());
+			}
 		} catch (IOException ioe) {
 			ioe.printStackTrace();
-		} catch (IllegalArgumentException iae) {
-			iae.printStackTrace();
-			System.err.println("入力が正しくありません。");
 		}
 	}
 
@@ -97,7 +61,7 @@ public class Main {
 	// 以下問題問わずに共通部分
 	// 標準入力の BufferedReader を返す.
 	private static BufferedReader createBufferedReader() {
-		InputStreamReader isr =new InputStreamReader(System.in);
-	   	return new BufferedReader(isr);
+		InputStreamReader isr = new InputStreamReader(System.in);
+		return new BufferedReader(isr);
 	}
 }

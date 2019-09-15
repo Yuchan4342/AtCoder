@@ -6,15 +6,21 @@ public class Main {
 		try {
 	   		BufferedReader br = createBufferedReader();
 	        String line = br.readLine();
-	        final int N = Integer.parseInt(line);
-	       	System.out.println(method(N));
+	       	System.out.println(method(line));
 		} catch (IOException ioe) {
 			ioe.printStackTrace();
 		}
 	}
 
-	private static int method(final int n) {
-		return n * n * n;
+	private static String method(final String str) {
+		if (str.equals("Sunny")) {
+			return "Cloudy";
+		} else if (str.equals("Cloudy")) {
+			return "Rainy";
+		} else if (str.equals("Rainy")) {
+			return "Sunny";
+		}
+		return "";
 	}
 
 	// 以下問題問わずに共通部分

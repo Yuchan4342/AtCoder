@@ -8,36 +8,19 @@ public class Main {
 		try {
 	   		br = createBufferedReader();
 	        String line = br.readLine();
-	    	final int n = Integer.parseInt(line);
-	        if (n < 2 || n > 20) {
-	        	throw new IllegalArgumentException();
-	        }
-	        int[] a = new int[n];
-	        int[] b = new int[n];
-	        int[] c = new int[n - 1];
-	        line = br.readLine();
-	        StringTokenizer st = new StringTokenizer(line, " ");
-	        for (int i = 0; i < n; i++) {
-	        	a[i] = Integer.parseInt(st.nextToken());
-	        }
-	        line = br.readLine();
-	        st = new StringTokenizer(line, " ");
-	        for (int i = 0; i < n; i++) {
-	        	b[i] = Integer.parseInt(st.nextToken());
-	        }
-	        line = br.readLine();
-	        st = new StringTokenizer(line, " ");
-	        for (int i = 0; i < n - 1; i++) {
-	        	c[i] = Integer.parseInt(st.nextToken());
-	        }
-	        int result = 0;
-	        for (int i = 0; i < n; i++) {
-	        	result += b[a[i] - 1];
-	        	if (i > 0 && a[i] - a[i - 1] == 1) {
-	        		result += c[a[i] - 2];
+	        char[] arr = line.toCharArray();
+	        String res = "Yes";
+	        for (int i = 0; i < arr.length; i++) {
+	        	if (i % 2 == 0 && arr[i] == 'L') {
+	        		res = "No";
+	        		break;
+	        	}
+	        	if (i % 2 == 1 && arr[i] == 'R') {
+	        		res = "No";
+	        		break;
 	        	}
 	        }
-	        System.out.println(result);
+	        System.out.println(res);
 		} catch (IOException ioe) {
 			ioe.printStackTrace();
 		} catch (IllegalArgumentException iae) {

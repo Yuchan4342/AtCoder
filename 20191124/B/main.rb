@@ -5,5 +5,5 @@ def rot(n, string)
 end
 
 lines = readlines
-n = lines[0].to_i
-puts rot(n, lines[1])
+n = lines[0].chomp.to_i
+puts rot(n, lines[1].chomp)

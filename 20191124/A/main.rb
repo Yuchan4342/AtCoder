@@ -1,5 +1,5 @@
 def num_of_days(string)
-	days = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"]
+	days = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT']
 	days.each_with_index do |day, index|
 		if string == day
 			return (7 - index)
@@ -8,5 +8,5 @@ def num_of_days(string)
 	-1
 end
 
-line = gets
+line = gets.chomp
 puts num_of_days(line)

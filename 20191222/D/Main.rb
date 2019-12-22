@@ -1,14 +1,16 @@
-def minimum_hug_to_palindrome(string)
-	array = string.split('')
-	n = array.length
-	minimum_hug = 0
-	(0...(n / 2)).each_with_index do |i|
-		if array[i] != array[n - i - 1]
-			minimum_hug += 1
+def function(n, a)
+	i = 1
+	count = 0
+	a.each do |block|
+		if (block == i)
+			i += 1
+		else
+			count += 1
 		end
 	end
-	minimum_hug
+	i == 1 ? -1 : count
 end
 
-line = gets.chomp
-puts minimum_hug_to_palindrome(line)
+n = gets.chomp.to_i
+a = gets.chomp.split(' ').map(&:to_i)
+puts function(n, a)

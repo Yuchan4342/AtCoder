@@ -1,48 +1,56 @@
-def traverse(maze_map, wi, hi, w, h)
-	distance = Array.new(h).map{Array.new(w, -1)}
-	max_distance = 0
+def max_distance(maze_map, wi, hi)
+	w = maze_map.first.length
+	h = maze_map.length
+	distance = Array.new(h).map{Array.new(w, nil)}
 	distance[hi][wi] = 0
+	result = 0
 	queue = []
-	queue.push([wi, hi])
-	while (queue.length > 0)
-		wci, hci = queue.shift
-		if max_distance < distance[hci][wci]
-			max_distance = distance[hci][wci]
+	queue.push([hi, wi])
+	while (!queue.empty?)
+		temp_queue = []
+		while(!queue.empty?)
+			hci, wci = queue.shift
+			if result < distance[hci][wci]
+				result = distance[hci][wci]
+			end
+			if wci > 0 and distance[hci][wci - 1].nil? and maze_map[hci][wci - 1]
+				distance[hci][wci - 1] = distance[hci][wci] + 1
+				temp_queue.push([hci, wci - 1])
+			end
+			if hci > 0 and distance[hci - 1][wci].nil? and maze_map[hci - 1][wci]
+				distance[hci - 1][wci] = distance[hci][wci] + 1
+				temp_queue.push([hci - 1, wci])
+			end
+			if wci < w - 1 and distance[hci][wci + 1].nil? and maze_map[hci][wci + 1]
+				distance[hci][wci + 1] = distance[hci][wci] + 1
+				temp_queue.push([hci, wci + 1])
+			end
+			if hci < h - 1 and distance[hci + 1][wci].nil? and maze_map[hci + 1][wci]
+				distance[hci + 1][wci] = distance[hci][wci] + 1
+				temp_queue.push([hci + 1, wci])
+			end
 		end
-		if wci - 1 >= 0 and distance[hci][wci - 1] == -1 and maze_map[hci][wci - 1]
-			distance[hci][wci - 1] = distance[hci][wci] + 1
-			queue.push([wci - 1, hci])
-		end
-		if hci - 1 >= 0 and distance[hci - 1][wci] == -1 and maze_map[hci - 1][wci]
-			distance[hci - 1][wci] = distance[hci][wci] + 1
-			queue.push([wci, hci - 1])
-		end
-		if wci + 1 < w and distance[hci][wci + 1] == -1 and maze_map[hci][wci + 1]
-			distance[hci][wci + 1] = distance[hci][wci] + 1
-			queue.push([wci + 1, hci])
-		end
-		if hci + 1 < h and distance[hci + 1][wci] == -1 and maze_map[hci + 1][wci]
-			distance[hci + 1][wci] = distance[hci][wci] + 1
-			queue.push([wci, hci + 1])
-		end
+		temp_queue.each { |c| queue.push(c) }
 	end
-	max_distance
+	result
 end
 
-def function(w, h, maze_map)
-	max_distance = 0
-	maze_map.each_with_index do |array, hi|
-		array.each_with_index do |c, wi|
-			distance = traverse(maze_map, wi, hi, w, h)
-			max_distance = (distance > max_distance) ? distance : max_distance
+def max_move_times(w, h, maze_map)
+	result = 0
+	(0...h).each do |hi|
+		(0...w).each do |wi|
+			if maze_map[hi][wi]
+				distance = max_distance(maze_map, wi, hi)
+				result = distance if distance > result
+			end
 		end
 	end
-	max_distance
+	result
 end
 
 h, w = gets.chomp.split(' ').map(&:to_i)
-maze_map = Array.new(h).map{ Array.new(w, false) }
+maze_map = Array.new(h, nil)
 (0...h).each do |i|
 	maze_map[i] = gets.chomp.split('').map { |c| c == "." }
 end
-puts function(w, h, maze_map)
+puts max_move_times(w, h, maze_map)
